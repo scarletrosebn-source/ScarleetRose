@@ -39,7 +39,7 @@ const registerUser = async (req, res) => {
     const newOtp = await Otp.create({
       userId: newUser._id,
       otp,
-      otpExpiresAt
+      expiresAt: otpExpiresAt
     });
 
     if (newUser) {
@@ -150,10 +150,10 @@ const resendOtp = async (req, res) => {
     const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
     await Otp.findOneAndUpdate(
-      { userId: user._id },
-      { otp: newOtp, expiresAt: otpExpiresAt },
-      { new: true, upsert: true }
-    );
+  { userId: user._id },
+  { otp: newOtp, expiresAt: otpExpiresAt },
+  { returnDocument: "after", upsert: true }
+);
 
     const subject = `Resend OTP - ${process.env.APP_NAME}`;
     const message = `Hi ${user.username},\n\nYou have requested a new OTP for your account.\nPlease use the following OTP to verify your email:\n\n${newOtp}\n\nThis OTP is valid for 10 minutes. If you did not request this, please ignore this email.\n\nThank you!\n\nBest regards,\nThe ${process.env.APP_NAME} Team`;

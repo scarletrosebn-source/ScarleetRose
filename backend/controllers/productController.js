@@ -117,7 +117,7 @@ const updateProduct = async (req, res) => {
     const updatedProduct = await Product.findByIdAndUpdate(
       productId,
       updateData,
-      { new: true }
+      { returnDocument: "after" }
     );
 
     if (images && images.length > 0 && oldImages.length > 0) {

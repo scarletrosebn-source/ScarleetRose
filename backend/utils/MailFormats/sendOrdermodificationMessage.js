@@ -19,5 +19,8 @@ const sendOrdermodificationMessage = async (email, username, updatedOrder) => {
       Order Status: ${updatedOrder.status}\n
       \n\nThank you for shopping with us!\n
     `;
-    await sendmail(user.email, subject, message);
+    console.log("Sending order modification email to:", email);
+    await sendmail(email, subject, message);
   };
+  
+  module.exports = sendOrdermodificationMessage;
