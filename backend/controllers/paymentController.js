@@ -25,6 +25,8 @@ const confirmOrder = async (dborderId, razorpayPaymentId,raxorpayOrderId) => {
         await product.save();
       }
     }
+    //update row on order table
+    const updatedOrder = await Order.findByIdAndUpdate(dborderId, { status: "payment-received", paymentId: razorpayPaymentId }, { returnDocument: "after" });
     // Send confirmation email to user
     sendOrderplacedMessage(updatedOrder.userId.email, updatedOrder.userId.username, updatedOrder);
     return updatedOrder;
@@ -88,7 +90,8 @@ const verifyrazorpayPayment = async (req, res) => {
             res.status(200).json({ message: "Payment verified successfully" });
         } else {
             // Payment verification failed
-            paymentRecord.updateOne({ razorpayOrderId: razorpay_order_id}, { paymentStatus: "failed",razorpayPaymentId: razorpay_payment_id });
+             await paymentRecord.updateOne({ razorpayOrderId: razorpay_order_id}, { paymentStatus: "failed",razorpayPaymentId: razorpay_payment_id });
+             await Order.findByIdAndUpdate(orderId, { , paymentId: razorpayPaymentId });
             res.status(400).json({ error: "Payment verification failed" });
         }
     } catch (error) {
