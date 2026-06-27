@@ -1,10 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
     const { user, logout } = useContext(AuthContext);
-    const cartItems = 0;
+    const navigate = useNavigate();
+    const handleLogin = () => navigate("/login");
+    const cartCount= useSelector((state) => state.cart.cartCount);
     const handleLogout = () => {
         logout();
         navigate("/login");
@@ -36,11 +39,10 @@ const Navbar = () => {
                             <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.35 5.4a1 1 0 001 1.2h12.9a1 1 0 001-.78l1.3-5.8M16 21a1 1 0 100-2 1 1 0 000 2zm-8 0a1 1 0 100-2 1 1 0 000 2z" />
                             </svg>
-                            {cartItems > 0 && (
-                                <span className="absolute -right-2 -top-2 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-red-600 px-1.5 text-xs font-bold text-white">
-                                    {cartItems}
-                                </span>
-                            )}
+                            <span className="sr-only">Cart</span>
+                            <span className="absolute -right-2 -top-2 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-red-600 px-1.5 text-xs font-bold text-white">
+                                {cartCount}
+                            </span>
                         </Link>
 
                         {user ? (
@@ -49,16 +51,16 @@ const Navbar = () => {
                                     Hi, {user.name}
                                 </Link>
                                 {user.role === "admin" && (
-                                    <Link to="/admin" className="rounded-full bg-blue-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-blue-700">
+                                    <Link to="/admin" className="rounded-full bg-amber-500 px-3 py-2 text-sm font-medium text-black transition hover:bg-amber-700 ">
                                         Admin
                                     </Link>
                                 )}
-                                <button onClick={handleLogout} className="rounded-full border border-transparent bg-red-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700">
+                                <button onClick={handleLogout} className="rounded-full border border-transparent bg-rose-800 px-3 py-2 text-sm font-medium text-white transition hover:bg-rose-500">
                                     Logout
                                 </button>
                             </>
                         ) : (
-                            <Link to="/login" className="rounded-full bg-green-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-green-700">
+                            <Link to="/login" onclick={handleLogin}  className="rounded-full bg-green-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-green-700">
                                 Login
                             </Link>
                         )}
