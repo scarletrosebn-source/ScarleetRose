@@ -9,7 +9,15 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 
-app.use(cors());
+app.use(cors(
+  {
+    origin: ["http://localhost:3000","https://scarlet-rose.vercel.app","http://localhost:3001","https://localhost:5000"],
+    allowedMethods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+
+  }
+));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -20,6 +28,7 @@ app.use("/api/products", require("./routes/productRoutes.js"));
 app.use("/api/orders", require("./routes/orderRoutes.js"));
 //app.use("/api/payments", require("./routes/paymentRoutes.js"));
 app.use("/api/analytics", require("./routes/analyticsRoutes.js"));
+app.use("/api/customerSupport", require("./routes/customerSupportRoutes.js"));
 
 
 

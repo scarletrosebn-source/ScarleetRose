@@ -6,12 +6,12 @@ import { useSelector } from "react-redux";
 const Navbar = () => {
     const { user, logout } = useContext(AuthContext);
     const navigate = useNavigate();
-    const handleLogin = () => navigate("/login");
-    const cartCount= useSelector((state) => state.cart.cartCount);
     const handleLogout = () => {
         logout();
         navigate("/login");
-    };
+    }
+    const handleLogin = () => navigate("/login");
+    const cartCount= useSelector((state) => state.cart.cartCount);
 
     return(
         <nav className="sticky top-0 z-50 bg-gray-800 shadow-md">
@@ -19,7 +19,7 @@ const Navbar = () => {
                 <div className="flex h-16 items-center justify-between">
                     <div className="flex items-center gap-6">
                         <Link to="/" className="flex items-center gap-3 text-white no-underline">
-                            <img className="h-12 w-12 rounded-full object-cover shadow-sm" src="Design.png" alt="Scarlet Rose logo" />
+                            <img className="h-12 w-12 rounded-full object-cover shadow-[0_0_18px_rgba(0,0,0,0.75)] ring-2 ring-white/40" src="Design.png" alt="Scarlet Rose logo" />
                             <span className="text-xl font-semibold tracking-[0.2em] uppercase text-white">
                                 Scarlet Rose
                             </span>

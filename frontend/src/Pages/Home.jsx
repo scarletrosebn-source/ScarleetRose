@@ -3,18 +3,91 @@ import { Link } from "react-router-dom";
 import Card from "../Components/Card";
 import Loader from "../Components/Loader";
 
+const seasonalEventSlides = [
+  {
+    season: "Summer",
+    title: "Bloom Into Something Beautiful",
+    subtitle: "Fresh arrivals with soft colors, floral moods, and gift-ready charm.",
+    accent: "New Bloom",
+    backgroundImage: "/summer.jpg",
+    palette: {
+      hero: "shadow-emerald-200/40 ring-emerald-100",
+      overlay: "from-white/95 via-emerald-50/85 to-white/75",
+      panel: "bg-emerald-50 text-emerald-950 ring-emerald-100",
+      eyebrow: "text-emerald-700",
+      body: "text-emerald-800/80",
+      card: "bg-white text-emerald-950 ring-emerald-100",
+      dot: "bg-emerald-600",
+      inactiveDot: "bg-emerald-200",
+    },
+  },
+  {
+    season: "Monsoon",
+    title: "Rainy Days, Rosy Finds",
+    subtitle: "Cozy picks and cheerful shades curated for slow, beautiful showers.",
+    accent: "Cozy Edit",
+    backgroundImage: "/monsoon.jpg",
+    palette: {
+      hero: "shadow-sky-200/40 ring-sky-100",
+      overlay: "from-white/95 via-sky-50/85 to-white/75",
+      panel: "bg-sky-50 text-sky-950 ring-sky-100",
+      eyebrow: "text-sky-700",
+      body: "text-sky-800/80",
+      card: "bg-white text-sky-950 ring-sky-100",
+      dot: "bg-sky-600",
+      inactiveDot: "bg-sky-200",
+    },
+  },
+  {
+    season: "Festive",
+    title: "Glow For Every Celebration",
+    subtitle: "Elegant favorites for gifting, hosting, and little festive moments.",
+    accent: "Festive Picks",
+    backgroundImage: "/festive.jpg",
+    palette: {
+      hero: "shadow-amber-200/40 ring-amber-100",
+      overlay: "from-white/95 via-amber-50/85 to-white/75",
+      panel: "bg-amber-50 text-amber-950 ring-amber-100",
+      eyebrow: "text-amber-700",
+      body: "text-amber-800/80",
+      card: "bg-white text-amber-950 ring-amber-100",
+      dot: "bg-amber-500",
+      inactiveDot: "bg-amber-200",
+    },
+  },
+  {
+    season: "Winter",
+    title: "Wrap The Season In Warmth",
+    subtitle: "Soft, thoughtful pieces for holidays, gifting, and cozy everyday joy.",
+    accent: "Winter Warmth",
+    backgroundImage: "/winter.jpg",
+    palette: {
+      hero: "shadow-violet-200/40 ring-violet-100",
+      overlay: "from-white/95 via-violet-50/85 to-white/75",
+      panel: "bg-violet-50 text-violet-950 ring-violet-100",
+      eyebrow: "text-violet-700",
+      body: "text-violet-800/80",
+      card: "bg-white text-violet-950 ring-violet-100",
+      dot: "bg-violet-600",
+      inactiveDot: "bg-violet-200",
+    },
+  },
+];
+
 const Home = () => {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [error, setError] = useState("");
-  const apiBase = process.env.REACT_APP_API_BASE || "";
+  const [activeSeasonalSlide, setActiveSeasonalSlide] = useState(0);
+  const seasonalSlide = seasonalEventSlides[activeSeasonalSlide];
+  
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
     const loadProducts = async () => {
       try {
-        const resp = await fetch(`${apiBase}/api/products`);
+        const resp = await fetch(`/api/products`);
         if (!resp.ok) {
           throw new Error(`Server responded with ${resp.status}`);
         }
@@ -30,21 +103,36 @@ const Home = () => {
     };
 
     loadProducts();
-  }, [apiBase]);
+  }, []);
+
+  useEffect(() => {
+    const carouselTimer = setInterval(() => {
+      setActiveSeasonalSlide((currentSlide) => (currentSlide + 1) % seasonalEventSlides.length);
+    }, 4000);
+
+    return () => clearInterval(carouselTimer);
+  }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-rose-50 via-rose-100 to-white px-6 py-16">
+    <main className="relative isolate min-h-screen overflow-x-hidden bg-gradient-to-br from-rose-50 via-rose-100 to-white px-6 py-16">
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 bg-cover bg-center opacity-90 transition-all duration-700"
+        style={{ backgroundImage: `url(${seasonalSlide.backgroundImage})` }}
+        aria-hidden="true"
+      />
+      <div className={`pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br ${seasonalSlide.palette.overlay}`} aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-white/30 backdrop-blur-[1px]" aria-hidden="true" />
       <div className="mx-auto max-w-6xl space-y-10">
-        <section className="rounded-[2rem] bg-white/95 p-8 shadow-xl shadow-rose-200/40 ring-1 ring-rose-100 backdrop-blur-sm">
-          <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-            <div className="space-y-6">
-              <span className="inline-flex rounded-full bg-rose-100 px-4 py-2 text-sm font-semibold uppercase tracking-[0.3em] text-rose-700 shadow-sm">
+        <section className={`relative overflow-hidden rounded-[2rem] bg-white/95 p-8 shadow-xl ring-1 backdrop-blur-sm transition-colors duration-500 ${seasonalSlide.palette.hero}`}>
+          <div className="relative z-10 grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+            <div className="space-y-6 rounded-[1.5rem] bg-white/75 p-6 shadow-sm ring-1 ring-white/70 backdrop-blur-md">
+              <span className="inline-flex rounded-full bg-rose-100/95 px-4 py-2 text-sm font-semibold uppercase tracking-[0.3em] text-rose-700 shadow-sm">
                 Rose collection
               </span>
-              <h1 className="text-4xl font-extrabold tracking-tight text-rose-900 sm:text-5xl">
-                Welcome to ECom
+              <h1 className="text-4xl font-extrabold tracking-tight text-rose-950 drop-shadow-sm sm:text-5xl">
+                Welcome to {process.env.REACT_APP_APP_NAME}
               </h1>
-              <p className="max-w-xl text-lg leading-8 text-rose-700/90">
+              <p className="max-w-xl text-lg font-medium leading-8 text-rose-900/90">
                 Elegance meets comfort with our curated rose-themed collection. Explore featured products tailored to delight and inspire.
               </p>
               <div className="flex flex-wrap items-center gap-4">
@@ -57,20 +145,33 @@ const Home = () => {
               </div>
             </div>
 
-            <div className="rounded-[2rem] bg-rose-50 p-8 text-rose-900 ring-1 ring-rose-100 shadow-sm">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-rose-700/90">Featured products</p>
-              <h2 className="mt-4 text-3xl font-bold tracking-tight text-rose-900">A rosy selection</h2>
-              <p className="mt-4 text-sm leading-7 text-rose-700/85">
-                Handpicked favourites appear here first — bright, beautiful, and ready to become your new essentials.
+            <div className={`min-h-[360px] rounded-[2rem] p-8 shadow-sm ring-1 transition-colors duration-500 ${seasonalSlide.palette.panel}`}>
+              <p className={`text-sm font-semibold uppercase tracking-[0.2em] ${seasonalSlide.palette.eyebrow}`}>
+                Seasonal events
+              </p>
+              <h2 className="mt-4 min-h-[72px] text-3xl font-bold tracking-tight">{seasonalSlide.title}</h2>
+              <p className={`mt-4 min-h-[56px] text-sm leading-7 ${seasonalSlide.palette.body}`}>
+                {seasonalSlide.subtitle}
               </p>
               <div className="mt-6 grid gap-4">
-                <div className="rounded-3xl bg-white p-4 text-sm text-rose-900 shadow-sm ring-1 ring-rose-100">
-                  <p className="font-semibold">Fresh arrivals</p>
-                  <p className="mt-2 text-rose-700/80">New rose-inspired designs every week.</p>
+                <div className={`min-h-[88px] rounded-3xl p-4 text-sm shadow-sm ring-1 ${seasonalSlide.palette.card}`}>
+                  <p className="font-semibold">{seasonalSlide.season} Highlight</p>
+                  <p className={`mt-2 ${seasonalSlide.palette.body}`}>{seasonalSlide.accent}</p>
                 </div>
-                <div className="rounded-3xl bg-white p-4 text-sm text-rose-900 shadow-sm ring-1 ring-rose-100">
-                  <p className="font-semibold">Curated picks</p>
-                  <p className="mt-2 text-rose-700/80">Only the best items make the featured list.</p>
+                <div className="flex items-center gap-2">
+                  {seasonalEventSlides.map((slide, index) => (
+                    <button
+                      key={slide.season}
+                      type="button"
+                      aria-label={`Show ${slide.season} event`}
+                      onClick={() => setActiveSeasonalSlide(index)}
+                      className={`h-2.5 rounded-full transition-all ${
+                        activeSeasonalSlide === index
+                          ? `w-8 ${seasonalSlide.palette.dot}`
+                          : `w-2.5 ${seasonalSlide.palette.inactiveDot}`
+                      }`}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
