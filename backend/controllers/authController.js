@@ -99,7 +99,7 @@ const verifyEmail = async (req, res) => {
     await Otp.deleteOne({ _id: otpRecord._id });
     verificationSuccessMessage(user.email);
 
-    return res.status(200).json({ message: "Email verified successfully." });
+    return res.status(200).json({ message: "Email verified successfully.", email: user.email, username: user.username , role: user.role ,token: generateToken(user._id) });
   } catch (error) {
     console.error("Email verification failed:", error.message);
     return res.status(500).json({ message: "Server error" });

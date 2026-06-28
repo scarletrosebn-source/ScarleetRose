@@ -108,7 +108,7 @@ const Home = () => {
   useEffect(() => {
     const carouselTimer = setInterval(() => {
       setActiveSeasonalSlide((currentSlide) => (currentSlide + 1) % seasonalEventSlides.length);
-    }, 4000);
+    }, 3000);
 
     return () => clearInterval(carouselTimer);
   }, []);

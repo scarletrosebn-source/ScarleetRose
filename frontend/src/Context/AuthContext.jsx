@@ -5,18 +5,21 @@ export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
    // const [user, setUser] = useState(null);
-    const [user, setUser] = useState({ name: "Test User", role: "admin" , email: "pekhamhalder2@gmail.com" });
-    const login = (userData) => {
+    const [user, setUser] = useState(null);
+    const login = (userData,rememberMe) => {
+        console.log(userData);
         setUser(userData);
-        localStorage.setItem("userdata", JSON.stringify(userData));
+        const storage = rememberMe ? localStorage : sessionStorage;
+        storage.setItem("userdata", JSON.stringify(userData));
     };
     const logout = () => {
         setUser(null);
         localStorage.removeItem("userdata");
+        sessionStorage.removeItem("userdata");
     };
 
     return (
-        <AuthContext.Provider value={{ login, logout, user }}>
+        <AuthContext.Provider value={{ login, logout, user , setUser}}>
             {children}
         </AuthContext.Provider>
     );

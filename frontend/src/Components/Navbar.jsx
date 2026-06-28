@@ -60,9 +60,14 @@ const Navbar = () => {
                                 </button>
                             </>
                         ) : (
-                            <Link to="/login" onclick={handleLogin}  className="rounded-full bg-green-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-green-700">
-                                Login
-                            </Link>
+                            <>
+                                <Link to="/login" onClick={handleLogin}  className="rounded-full bg-green-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-green-700">
+                                    Login
+                                </Link>
+                                <Link to="/register" className="rounded-full bg-rose-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-rose-500">
+                                    Register
+                                </Link>
+                            </>
                         )}
                     </div>
                 </div>

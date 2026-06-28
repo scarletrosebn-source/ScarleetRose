@@ -9,8 +9,8 @@ import {AuthContext} from "../Context/AuthContext";
 const Contact = () => {
   const { user } = useContext(AuthContext);  
   const [formData, setFormData] = useState({
-    name: user.name ||"",
-    email: user.email || "",
+    name: user?.name || "",
+    email: user?.email || "",
     subject: "",
     message: "",
   });

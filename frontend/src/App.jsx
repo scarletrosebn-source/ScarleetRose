@@ -8,18 +8,27 @@ import Contact from "./Pages/Contact";
 import ReturnsRefunds from "./Pages/ReturnsRefunds.jsx";
 import PrivacyPolicy from "./Pages/PrivacyPolicy.jsx";
 import TermsConditions from "./Pages/TermsConditions.jsx";
-
+import Shop from "./Pages/Shop";
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
+import VerifyEmail from "./Pages/VerifyEmail";
+import ProductDetails from "./Pages/ProductDetails";
 function App() {
     return (
         <Router>
             <Navbar />
             <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/shop" element={<Shop />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/verify-email" element={<VerifyEmail />} />
                 <Route path="/returns-refunds" element={<ReturnsRefunds />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/terms-conditions" element={<TermsConditions />} />
+                <Route path="/product/:id" element={<ProductDetails />} />
                 {/* <Route path="/contact" element={<div>Contact Page</div>} /> */}
             </Routes>
             <Footer />
