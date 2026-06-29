@@ -151,10 +151,81 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+///PRODUCT REVIEW CONTROLLER LOGICS
+
+const addProductReview = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const { rating, comment } = req.body;
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    const newReview = {
+      review: comment,
+      customer_rating:rating
+    };
+    product.reviews.push(newReview);
+    await product.save();
+    res.status(201).json({ message: "Review added successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+const deleteReview = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const reviewID = req.params.reviewID;
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    const existingReviews = product.reviews;
+    const updatedReviews = existingReviews.filter(
+      (r) => r._id.toString() !== reviewID
+    );
+    product.reviews = updatedReviews;
+    await product.save();
+    res.status(200).json({ message: "Review deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+const updateReview = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const reviewID = req.params.reviewID;
+    const { rating, comment } = req.body;
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    const existingReviews = product.reviews;
+    const updatedReviews = existingReviews.map((r) => {
+      if (r._id.toString() === reviewID) {
+        r.review = comment;
+        r.customer_rating = rating;
+      }
+      return r;
+    });
+    product.reviews = updatedReviews;
+    await product.save();
+    res.status(200).json({ message: "Review updated successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 module.exports = {
   getAllProducts,
   getProductById,
   createProduct,
   updateProduct,
   deleteProduct,
+  addProductReview,
+  deleteReview
+  //updateReview
 };
+//updateReview not there as i am currently not tracking the review-owner in the database

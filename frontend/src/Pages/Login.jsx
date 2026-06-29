@@ -119,8 +119,8 @@ const Login = () => {
                   />
                   Remember me
                 </label>
-                <Link to="/contact" className="font-semibold text-rose-700 transition hover:text-rose-900">
-                  Need help?
+                <Link to="/forgot-password" className="font-semibold text-rose-700 transition hover:text-rose-900">
+                  Forgot password?
                 </Link>
               </div>
 

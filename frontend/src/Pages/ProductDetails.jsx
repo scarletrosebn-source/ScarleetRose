@@ -306,7 +306,7 @@ const ProductDetails = () => {
 
                   return (
                     <article
-                      key={review._id || index}
+                      key={review._id}
                       className="rounded-2xl border border-rose-100 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                     >
                       <div className="flex items-start justify-between gap-4">
