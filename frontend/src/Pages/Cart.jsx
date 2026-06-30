@@ -1,15 +1,17 @@
-import React, { useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useMemo,useContext } from "react";
+import { Link , useNavigate} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { incrementQuantity, decrementQuantity, removeFromCart } from "../Redux/CartSlice";
 
+import { incrementQuantity, decrementQuantity, removeFromCart } from "../Redux/CartSlice";
+import { AuthContext } from "../Context/AuthContext"; 
 import { ShoppingBag, Minus, Plus, Trash2, ArrowLeft, ShieldCheck, Truck } from "lucide-react";
 import { PLACEHOLDER_IMAGE } from "../config/assets";
 
 const Cart = () => {
   const dispatch = useDispatch();
-
   const { cartItems } = useSelector((state) => state.cart);
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -34,6 +36,21 @@ const Cart = () => {
   const totalItems = useMemo(() => {
     return cartItems.reduce((acc, item) => acc + item.quantity, 0);
   }, [cartItems]);
+
+  const handleCheckout = () => {
+    window.scrollTo(0, 0);
+    if(user === null){
+      navigate("/login",{
+        state: {
+          redirectUrl: "/cart"
+        }
+      });
+    }
+    else{
+      navigate("/checkout");
+    }
+    
+  };
 
   if (cartItems.length === 0) {
     return (
@@ -191,8 +208,8 @@ const Cart = () => {
                 <span className="text-3xl font-extrabold text-rose-700">₹{subtotal.toFixed(2)}</span>
               </div>
             </div>
-
-            <button className="mt-10 w-full rounded-full bg-rose-600 py-4 text-lg font-semibold text-white shadow-lg shadow-rose-300 transition duration-300 hover:scale-[1.02] hover:bg-rose-700 active:scale-100">
+            
+            <button onClick={() => handleCheckout()} className="mt-10 w-full rounded-full bg-rose-600 py-4 text-lg font-semibold text-white shadow-lg shadow-rose-300 transition duration-300 hover:scale-[1.02] hover:bg-rose-700 active:scale-100">
               Proceed to Checkout
             </button>
 

@@ -7,18 +7,16 @@ const sendOrdermodificationMessage = require("../utils/MailFormats/sendOrdermodi
 const sendOrderplacedMessage = require("../utils/MailFormats/sendOrderplacedMessage.js");
 const dotenv = require("dotenv");
 dotenv.config();
-const confirmOrder = async (dborderId, razorpayPaymentId,raxorpayOrderId) => {
+const confirmOrder = async (dborderId, razorpayPaymentId) => {
   try {
-    
-    //TODO: check if paymentId is valid and matches the order
-    const updatedOrder = await Order.findByIdAndUpdate(orderId, { status: "payment-received", paymentId: razorpayPaymentId }, { returnDocument: "after"  }).populate("userId", "email username").populate("products.productId", "name price discount");
-   
-    if (!updatedOrder) {
-      return res.status(404).json({ message: "Order not found" });
+    const order = await Order.findById(dborderId).populate("userId", "email username").populate("products.productId", "name price discount");
+
+    if (!order) {
+      return null;
     }
 
     //reduce stock of products in the order
-    for (const item of updatedOrder.products) {
+    for (const item of order.products) {
       const product = await Product.findById(item.productId);
       if (product) {
         product.stock -= item.quantity;
@@ -26,7 +24,7 @@ const confirmOrder = async (dborderId, razorpayPaymentId,raxorpayOrderId) => {
       }
     }
     //update row on order table
-    const updatedOrder = await Order.findByIdAndUpdate(dborderId, { status: "payment-received", paymentId: razorpayPaymentId }, { returnDocument: "after" });
+    const updatedOrder = await Order.findByIdAndUpdate(dborderId, { status: "payment-received", paymentId: razorpayPaymentId }, { returnDocument: "after" }).populate("userId", "email username");
     // Send confirmation email to user
     sendOrderplacedMessage(updatedOrder.userId.email, updatedOrder.userId.username, updatedOrder);
     return updatedOrder;
@@ -41,7 +39,7 @@ const confirmOrder = async (dborderId, razorpayPaymentId,raxorpayOrderId) => {
 const createrazorpayOrder = async (req, res) => {
   try {
     const orderId = req.body.orderId; // Use consistent casing for variable names
-    const order = Order.findById(orderId);
+    const order =  await Order.findById(orderId);
 
     // Calculate the amount by summing up the total price of all products
     const amount = order.products.reduce(
@@ -61,7 +59,7 @@ const createrazorpayOrder = async (req, res) => {
     const razorpayOrder = await razorpayInstance.orders.create(options);
 
     // Update the payment record if the orderId is provided
-    if (orderId) {
+    if (razorpayOrder.status === "created") {
       await paymentRecord.create({
         db_orderId: orderId,
         razorpayOrderId: razorpayOrder.id,
@@ -69,15 +67,15 @@ const createrazorpayOrder = async (req, res) => {
       });
     }
 
-    res.status(200).json(razorpayOrder);
+    res.status(200).json({razorpay_order_id: razorpayOrder.id});
   } catch (error) {
     console.error("Error creating Razorpay order:", error);
     res.status(500).json({ error: "Failed to create Razorpay order" });
   }
 };
-const verifyrazorpayPayment = async (req, res) => {
+const validateRazorpayPayment = async (req, res) => {
     try {
-        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+        const { orderId,razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
         const hmac = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET);
         hmac.update(razorpay_order_id + "|" + razorpay_payment_id);
@@ -85,13 +83,13 @@ const verifyrazorpayPayment = async (req, res) => {
 
         if (calculatedSignature === razorpay_signature) {
             // Payment is verified
-            const paymentRecord = await paymentRecord.updateOne({ razorpayOrderId: razorpay_order_id}, { paymentStatus: "paid", razorpayPaymentId: razorpay_payment_id },{ returnDocument: "after" });
-            await confirmOrder(paymentRecord.db_orderId, razorpay_payment_id, razorpay_order_id);
+            await paymentRecord.updateOne({ razorpayOrderId: razorpay_order_id}, { paymentStatus: "paid", razorpayPaymentId: razorpay_payment_id },{ returnDocument: "after" });
+            await confirmOrder(orderId, razorpay_payment_id);
             res.status(200).json({ message: "Payment verified successfully" });
         } else {
             // Payment verification failed
              await paymentRecord.updateOne({ razorpayOrderId: razorpay_order_id}, { paymentStatus: "failed",razorpayPaymentId: razorpay_payment_id });
-             await Order.findByIdAndUpdate(orderId, { , paymentId: razorpayPaymentId });
+             await Order.findByIdAndUpdate(orderId, { status: "payment-failed", paymentId: razorpay_payment_id });
             res.status(400).json({ error: "Payment verification failed" });
         }
     } catch (error) {
@@ -100,4 +98,4 @@ const verifyrazorpayPayment = async (req, res) => {
     }
 };
 
-module.exports = { createrazerpayOrder,verifyrazorpayPayment };
+module.exports = { createrazorpayOrder,validateRazorpayPayment };

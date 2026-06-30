@@ -115,14 +115,19 @@ const loginUser = async (req, res) => {
     }
     else if(user && (await bcrypt.compare(password, user.password))){
       const token = generateToken(user._id);
-      res.json({ 
+      res.status(200).json({ 
         _id: user._id,
         username: user.username,
         email: user.email,
+        role: user.role,
         token
       });
     }
+    else {
+      return res.status(400).json({ message: "Invalid password!" });
+    }
   } catch (error) {
+    console.error("Login failed:", error.message);
     res.status(500).json({ message: "Server error" });
   }
 };

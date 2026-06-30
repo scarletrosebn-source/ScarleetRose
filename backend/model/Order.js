@@ -29,6 +29,16 @@ const orderSchema = new mongoose.Schema(
         },
       },
     ],
+    /*
+      name: "",
+    email: "",
+    phone: "",
+    address: "",
+    city: "",
+    state: "",
+    pincode: "",
+    country: "India",
+    */
     address: {
       fullname: {
         type: String,
@@ -42,6 +52,11 @@ const orderSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
+      state: {
+        type: String,
+        required: true,
+        default: "West Bengal",
+      },
       postalCode: {
         type: String,
         required: true,
@@ -51,13 +66,17 @@ const orderSchema = new mongoose.Schema(
         required: true,
         default: "India",
       },
+      phoneNo: {
+        type: String,
+        required: true,
+      },
     },
     status: {
       type: String,
-      enum: ["pending", "payment-received", "shipped", "delivered", "cancelled"],
+      enum: ["pending", "payment-received", "payment-failed", "shipped", "delivered", "cancelled"],
       default: "pending",
     },
-    paymentId: { type: String, required: true },
+    paymentId: { type: String },
   },
 
   {

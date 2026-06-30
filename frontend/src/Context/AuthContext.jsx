@@ -13,7 +13,7 @@ const AuthProvider = ({ children }) => {
             setUser(JSON.parse(storedUser));
         }
     }, []);
-    const login = (userData,rememberMe) => {
+    const login = (userData,rememberMe=true) => {
         console.log(userData);
         setUser(userData);
         const storage = rememberMe ? localStorage : sessionStorage;

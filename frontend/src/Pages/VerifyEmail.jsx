@@ -31,7 +31,8 @@ const VerifyEmail = () => {
     try {
       const resp = await axios.post("/api/auth/verify-email", { email, otp });
       alert("Email verification successful");
-      login({
+      login(
+        {
         name: resp.data.username,
         role: resp.data.role,
         email: resp.data.email,

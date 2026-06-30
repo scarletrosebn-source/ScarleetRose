@@ -16,6 +16,8 @@ import ProductDetails from "./Pages/ProductDetails";
 import ForgotPassword from "./Pages/ForgotPassword";
 import ResetPassword from "./Pages/ResetPassword";
 import Cart from "./Pages/Cart";
+import OrderDettails from "./Pages/OrderDettails.jsx";
+import Checkout from "./Pages/Checkout.jsx";
 function App() {
     return (
         <Router>
@@ -35,6 +37,8 @@ function App() {
                 <Route path="/product/:id" element={<ProductDetails />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/cart" element={<Cart />} />
+                <Route path="/order/:orderId" element={<OrderDettails />} />
+                <Route path="/checkout" element={<Checkout />} />
                 {/* <Route path="/contact" element={<div>Contact Page</div>} /> */}
             </Routes>
             <Footer />

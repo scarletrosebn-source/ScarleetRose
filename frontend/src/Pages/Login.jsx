@@ -1,17 +1,46 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
 import { PLACEHOLDER_IMAGE } from "../config/assets";
-
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../Context/AuthContext"; 
+import { useContext } from "react";
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
-
+  const location = useLocation();
+  const {login} = useContext(AuthContext);
+  const navigate = useNavigate();
+  const state = location.state;
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  })
   useEffect(() => {
     window.scrollTo(0, 0);
+    console.log(state);
+    if (state?.redirectUrl==="/cart") {
+      alert("Please login to checkout! User not properly logged in.");
+    }
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData);
+    if(!formData.email || !formData.password) return alert("Please fill in all the fields");
+
+    //Backend Check
+    const resp =  await axios.post("/api/auth/login", formData);
+    if (resp.status === 200) {
+      alert("Login successful");
+      login({name: resp.data.username, role: resp.data.role, email: resp.data.email, token: resp.data.token});
+      navigate(state?.redirectUrl || "/");
+    }
+    else alert(resp.data.message);
+  };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   return (
@@ -83,8 +112,9 @@ const Login = () => {
                   autoComplete="email"
                   placeholder="you@example.com"
                   className="mt-2 w-full rounded-2xl border border-rose-100 bg-white px-4 py-3 text-gray-900 shadow-sm outline-none transition placeholder:text-gray-400 focus:border-rose-400 focus:ring-4 focus:ring-rose-100"
+                  onChange={handleChange}
                 />
-              </div>
+              </div>handleChange
 
               <div>
                 <label htmlFor="password" className="block text-sm font-semibold text-rose-950">
@@ -99,6 +129,7 @@ const Login = () => {
                     autoComplete="current-password"
                     placeholder="Enter your password"
                     className="min-w-0 flex-1 rounded-2xl border-0 bg-transparent px-4 py-3 text-gray-900 outline-none placeholder:text-gray-400"
+                    onChange={handleChange}
                   />
                   <button
                     type="button"
