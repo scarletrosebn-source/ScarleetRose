@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { PLACEHOLDER_IMAGE } from "../config/assets";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -47,7 +48,7 @@ const Login = () => {
           <div className="w-full">
             <div className="mb-8 text-center md:text-left">
               <Link to="/" className="mx-auto mb-6 flex w-fit items-center gap-3 rounded-full bg-rose-50 px-4 py-2 ring-1 ring-rose-100 md:mx-0">
-                <img src="/Design.png" alt="Scarlet Rose logo" className="h-10 w-10 rounded-full object-cover" />
+                <img src={PLACEHOLDER_IMAGE} alt="Scarlet Rose logo" className="h-10 w-10 rounded-full object-cover" />
                 <span className="text-sm font-bold uppercase tracking-[0.2em] text-rose-900">Scarlet Rose</span>
               </Link>
               <p className="text-sm font-semibold uppercase tracking-[0.22em] text-rose-600">Account login</p>

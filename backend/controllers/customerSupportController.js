@@ -1,6 +1,6 @@
 
 const Otp = require("../model/Otp.js");
-const OwnerSocials = require("../model/ownersocials.js");
+const OwnerSocials = require("../model/Ownersocials.js");
 const Ticket = require("../model/Ticket.js");
 const sendCustomerMailAndNotifyAdmin = require("../utils/MailFormats/CustomermailsAndNotifyAdmin.js");
 const SendResetPasswordEmail = require("../utils/MailFormats/ResetPasswordEmail.js");

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
+import { PLACEHOLDER_IMAGE } from "../config/assets";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -94,7 +95,7 @@ const ResetPassword = () => {
                 className="mx-auto mb-6 flex w-fit items-center gap-3 rounded-full bg-rose-50 px-4 py-2 ring-1 ring-rose-100 md:mx-0"
               >
                 <img
-                  src="/Design.png"
+                  src={PLACEHOLDER_IMAGE}
                   alt="Scarlet Rose"
                   className="h-10 w-10 rounded-full object-cover"
                 />

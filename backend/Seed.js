@@ -5,6 +5,7 @@ const connectDB = require("./config/db");
 const User = require("./model/User");
 const Product = require("./model/Product");
 const Order = require("./model/Order");
+const OwnerSocials = require("./model/Ownersocials");
 
 const seedDatabase = async () => {
   try {
@@ -174,8 +175,29 @@ const seedDatabase = async () => {
       })
     );
 
+    const ownerSocialsData = {
+      socials: {
+        facebook: "https://www.facebook.com/yourpage",
+        instagram: "https://www.instagram.com/yourprofile",
+        twitter: "https://twitter.com/yourhandle",
+        pinterest: "https://www.pinterest.com/yourprofile",
+      },
+      contacts: {
+        email: "sample@sample.com",
+        phone: "+91-1234567890",
+      },
+    };
+
+    const ownerSocials = await OwnerSocials.findOneAndUpdate(
+      {},
+      {
+        $set: ownerSocialsData,
+      },
+      { upsert: true, new: true, setDefaultsOnInsert: true, runValidators: true }
+    );
+
     console.log("Dummy data seeded successfully.");
-    console.log({ adminUser: adminUser.email, users: regularUsers.map((u) => u.email), products: createdProducts.map((p) => p.name) });
+    console.log({ adminUser: adminUser.email, users: regularUsers.map((u) => u.email), products: createdProducts.map((p) => p.name), ownerSocials: ownerSocials.contacts.email });
   } catch (error) {
     console.error("Seed failed:", error);
   } finally {

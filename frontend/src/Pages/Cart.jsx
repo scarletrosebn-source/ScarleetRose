@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { incrementQuantity, decrementQuantity, removeFromCart } from "../Redux/CartSlice";
 
 import { ShoppingBag, Minus, Plus, Trash2, ArrowLeft, ShieldCheck, Truck } from "lucide-react";
+import { PLACEHOLDER_IMAGE } from "../config/assets";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ const Cart = () => {
           <p className="mt-4 leading-8 text-rose-700">Looks like you haven't added anything yet. Discover beautiful products from our latest collection.</p>
 
           <Link
-            to="/products"
+            to="/shop"
             className="inline-flex items-center gap-2 mt-10 rounded-full bg-rose-600 px-8 py-4 text-white font-semibold shadow-lg shadow-rose-300 transition hover:bg-rose-700 hover:scale-105"
           >
             <ArrowLeft size={18} />
@@ -83,16 +84,23 @@ const Cart = () => {
                 >
                   <div className="flex flex-col gap-6 md:flex-row">
                     <div className="relative">
-                      <img src={item.images[0]} alt={item.name} className="h-44 w-44 rounded-3xl object-cover border border-rose-100" />
+                      <img
+                        src={item.images?.[0] || PLACEHOLDER_IMAGE}
+                        alt={item.name}
+                        className="h-44 w-44 rounded-3xl object-cover border border-rose-100"
+                        onError={(event) => {
+                          event.currentTarget.src = PLACEHOLDER_IMAGE;
+                        }}
+                      />
 
                       {item.discount > 0 && <div className="absolute left-3 top-3 rounded-full bg-rose-600 px-3 py-1 text-xs font-bold text-white shadow-lg">{item.discount}% OFF</div>}
                     </div>
 
-                    <div className="flex flex-1 flex-col justify-between">
-                      <div>
-                        <div className="flex items-start justify-between gap-4">
-                          <div>
-                            <h2 className="text-2xl font-bold text-rose-950">{item.name}</h2>
+	                    <div className="flex flex-1 flex-col justify-between">
+	                      <div>
+	                        <div className="flex items-start justify-between gap-4">
+	                          <div>
+	                            <h2 className="text-2xl font-bold text-rose-950">{item.name}</h2>
 
                             <p className="mt-3 line-clamp-2 text-sm leading-7 text-rose-700/80">{item.description}</p>
                           </div>
@@ -117,38 +125,38 @@ const Cart = () => {
                             <span className="rounded-full bg-red-100 px-4 py-2 text-sm font-semibold text-red-600">Out of Stock</span>
                           )}
 
-                          <span className="rounded-full bg-rose-100 px-4 py-2 text-sm font-medium text-rose-700">Qty: {item.quantity}</span>
-                        </div>
-                      </div>
+	                          <span className="rounded-full bg-rose-100 px-4 py-2 text-sm font-medium text-rose-700">Qty: {item.quantity}</span>
+	                        </div>
+	                      </div>
+	                    </div>
+	                  </div>
 
-                      <div className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-                        <div className="flex items-center rounded-2xl border border-rose-100 bg-rose-50 p-2 shadow-sm">
-                          <button onClick={() => dispatch(decrementQuantity(item))} className="flex h-11 w-11 items-center justify-center rounded-xl text-rose-700 transition hover:bg-white">
-                            <Minus size={18} />
-                          </button>
+	                  <div className="mt-8 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
+	                    <div className="flex w-fit items-center rounded-2xl border border-rose-100 bg-rose-50 p-2 shadow-sm">
+	                      <button onClick={() => dispatch(decrementQuantity(item))} className="flex h-11 w-11 items-center justify-center rounded-xl text-rose-700 transition hover:bg-white">
+	                        <Minus size={18} />
+	                      </button>
 
-                          <span className="w-14 text-center text-xl font-bold text-rose-900">{item.quantity}</span>
+	                      <span className="w-14 text-center text-xl font-bold text-rose-900">{item.quantity}</span>
 
-                          <button
-                            disabled={item.quantity >= item.stock}
-                            onClick={() => dispatch(incrementQuantity(item))}
-                            className={`flex h-11 w-11 items-center justify-center rounded-xl transition
-                              ${item.quantity >= item.stock ? "cursor-not-allowed bg-gray-100 text-gray-400" : "text-rose-700 hover:bg-white"}`}
-                          >
-                            <Plus size={18} />
-                          </button>
-                        </div>
+	                      <button
+	                        disabled={item.quantity >= item.stock}
+	                        onClick={() => dispatch(incrementQuantity(item))}
+	                        className={`flex h-11 w-11 items-center justify-center rounded-xl transition
+	                          ${item.quantity >= item.stock ? "cursor-not-allowed bg-gray-100 text-gray-400" : "text-rose-700 hover:bg-white"}`}
+	                      >
+	                        <Plus size={18} />
+	                      </button>
+	                    </div>
 
-                        <div className="text-right">
-                          <p className="text-sm text-rose-600">Total</p>
+	                    <div className="text-left sm:text-right">
+	                      <p className="text-sm text-rose-600">Total</p>
 
-                          <h2 className="text-3xl font-extrabold text-rose-950">₹{(discountedPrice * item.quantity).toFixed(2)}</h2>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
+	                      <h2 className="text-3xl font-extrabold text-rose-950">₹{(discountedPrice * item.quantity).toFixed(2)}</h2>
+	                    </div>
+	                  </div>
+	                </div>
+	              );
             })}
           </div>
 
@@ -188,7 +196,7 @@ const Cart = () => {
               Proceed to Checkout
             </button>
 
-            <Link to="/products" className="mt-5 block text-center font-semibold text-rose-700 transition hover:text-rose-900">
+            <Link to="/shop" className="mt-5 block text-center font-semibold text-rose-700 transition hover:text-rose-900">
               Continue Shopping
             </Link>
 

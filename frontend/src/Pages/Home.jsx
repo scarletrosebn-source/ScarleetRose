@@ -114,7 +114,7 @@ const Home = () => {
   }, []);
 
   return (
-    <main className="relative isolate min-h-screen overflow-x-hidden bg-gradient-to-br from-rose-50 via-rose-100 to-white px-6 py-16">
+    <main className="relative isolate min-h-screen overflow-x-hidden bg-gradient-to-br from-rose-50 via-white to-slate-50 px-4 py-10 sm:px-6 sm:py-14">
       <div
         className="pointer-events-none absolute inset-0 -z-10 bg-cover bg-center opacity-90 transition-all duration-700"
         style={{ backgroundImage: `url(${seasonalSlide.backgroundImage})` }}
@@ -123,29 +123,29 @@ const Home = () => {
       <div className={`pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br ${seasonalSlide.palette.overlay}`} aria-hidden="true" />
       <div className="pointer-events-none absolute inset-0 -z-10 bg-white/30 backdrop-blur-[1px]" aria-hidden="true" />
       <div className="mx-auto max-w-6xl space-y-10">
-        <section className={`relative overflow-hidden rounded-[2rem] bg-white/95 p-8 shadow-xl ring-1 backdrop-blur-sm transition-colors duration-500 ${seasonalSlide.palette.hero}`}>
+        <section className={`relative overflow-hidden rounded-3xl bg-white/95 p-5 shadow-xl ring-1 backdrop-blur-sm transition-colors duration-500 sm:p-8 ${seasonalSlide.palette.hero}`}>
           <div className="relative z-10 grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-            <div className="space-y-6 rounded-[1.5rem] bg-white/75 p-6 shadow-sm ring-1 ring-white/70 backdrop-blur-md">
-              <span className="inline-flex rounded-full bg-rose-100/95 px-4 py-2 text-sm font-semibold uppercase tracking-[0.3em] text-rose-700 shadow-sm">
+            <div className="space-y-6 rounded-2xl bg-white/80 p-5 shadow-sm ring-1 ring-white/70 backdrop-blur-md sm:p-6">
+              <span className="inline-flex rounded-full bg-rose-100/95 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-rose-700 shadow-sm sm:text-sm">
                 Rose collection
               </span>
               <h1 className="text-4xl font-extrabold tracking-tight text-rose-950 drop-shadow-sm sm:text-5xl">
                 Welcome to {process.env.REACT_APP_APP_NAME}
               </h1>
-              <p className="max-w-xl text-lg font-medium leading-8 text-rose-900/90">
+              <p className="max-w-xl text-base font-medium leading-8 text-rose-900/90 sm:text-lg">
                 Elegance meets comfort with our curated rose-themed collection. Explore featured products tailored to delight and inspire.
               </p>
               <div className="flex flex-wrap items-center gap-4">
-                <Link to="/" className="rounded-full bg-rose-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-rose-500/20 transition hover:bg-rose-700">
+                <Link to="/shop" className="rounded-full bg-rose-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-rose-500/20 transition hover:bg-rose-700">
                   Shop the rose edit
                 </Link>
-                <Link to="/" className="rounded-full border border-rose-200 px-6 py-3 text-sm font-semibold text-rose-700 transition hover:border-rose-300 hover:text-rose-800">
+                <Link to="/shop" className="rounded-full border border-rose-200 px-6 py-3 text-sm font-semibold text-rose-700 transition hover:border-rose-300 hover:text-rose-800">
                   Discover more
                 </Link>
               </div>
             </div>
 
-            <div className={`min-h-[360px] rounded-[2rem] p-8 shadow-sm ring-1 transition-colors duration-500 ${seasonalSlide.palette.panel}`}>
+            <div className={`min-h-[320px] rounded-3xl p-6 shadow-sm ring-1 transition-colors duration-500 sm:p-8 ${seasonalSlide.palette.panel}`}>
               <p className={`text-sm font-semibold uppercase tracking-[0.2em] ${seasonalSlide.palette.eyebrow}`}>
                 Seasonal events
               </p>
@@ -154,7 +154,7 @@ const Home = () => {
                 {seasonalSlide.subtitle}
               </p>
               <div className="mt-6 grid gap-4">
-                <div className={`min-h-[88px] rounded-3xl p-4 text-sm shadow-sm ring-1 ${seasonalSlide.palette.card}`}>
+                <div className={`min-h-[88px] rounded-2xl p-4 text-sm shadow-sm ring-1 ${seasonalSlide.palette.card}`}>
                   <p className="font-semibold">{seasonalSlide.season} Highlight</p>
                   <p className={`mt-2 ${seasonalSlide.palette.body}`}>{seasonalSlide.accent}</p>
                 </div>
@@ -179,13 +179,13 @@ const Home = () => {
         </section>
  
         <section className="grid gap-8 xl:grid-cols-[0.45fr_1fr]">
-          <aside className="rounded-[2rem] bg-rose-50 p-8 shadow-lg shadow-rose-200/30 ring-1 ring-rose-100">
+          <aside className="rounded-3xl bg-rose-50 p-6 shadow-lg shadow-rose-200/30 ring-1 ring-rose-100 sm:p-8">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-rose-700">Featured</p>
             <h2 className="mt-4 text-3xl font-bold text-rose-900">Featured products</h2>
             <p className="mt-3 text-sm leading-7 text-rose-700/85">
               Browse our highlighted products with a soft rose palette and premium style.
             </p>
-            <div className="mt-8 rounded-3xl bg-white p-5 shadow-sm ring-1 ring-rose-100">
+            <div className="mt-8 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-rose-100">
               <div className="space-y-4">
                 <div>
                   <p className="font-semibold text-rose-900">Beauty + quality</p>

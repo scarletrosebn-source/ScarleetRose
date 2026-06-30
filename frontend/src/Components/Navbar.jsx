@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
 import { useSelector } from "react-redux";
+import { PLACEHOLDER_IMAGE } from "../config/assets";
 
 const Navbar = () => {
     const { user, logout } = useContext(AuthContext);
@@ -14,13 +15,13 @@ const Navbar = () => {
     const cartCount= useSelector((state) => state.cart.cartCount);
 
     return(
-        <nav className="sticky top-0 z-50 bg-gray-800 shadow-md">
-            <div className="w-full px-4 sm:px-6 lg:px-8">
-                <div className="flex h-16 items-center justify-between">
-                    <div className="flex items-center gap-6">
-                        <Link to="/" className="flex items-center gap-3 text-white no-underline">
-                            <img className="h-12 w-12 rounded-full object-cover shadow-[0_0_18px_rgba(0,0,0,0.75)] ring-2 ring-white/40" src="Design.png" alt="Scarlet Rose logo" />
-                            <span className="text-xl font-semibold tracking-[0.2em] uppercase text-white">
+        <nav className="sticky top-0 z-50 border-b border-white/10 bg-slate-900/95 shadow-lg shadow-slate-950/10 backdrop-blur">
+            <div className="w-full px-3 sm:px-6 lg:px-8">
+                <div className="flex min-h-16 flex-wrap items-center justify-between gap-3 py-2">
+                    <div className="flex min-w-0 items-center gap-4 lg:gap-6">
+                        <Link to="/" className="flex min-w-0 items-center gap-3 text-white no-underline">
+                            <img className="h-11 w-11 shrink-0 rounded-full object-cover shadow-md ring-1 ring-white/30 sm:h-12 sm:w-12" src={PLACEHOLDER_IMAGE} alt="Scarlet Rose logo" />
+                            <span className="max-w-[150px] truncate text-base font-semibold uppercase tracking-[0.16em] text-white sm:max-w-none sm:text-xl">
                                 Scarlet Rose
                             </span>
                         </Link>
@@ -34,8 +35,8 @@ const Navbar = () => {
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-3">
-                        <Link to="/cart" className="relative inline-flex items-center rounded-full border border-transparent bg-white px-3 py-2 text-sm font-medium text-gray-900 transition hover:bg-gray-100">
+                    <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
+                        <Link to="/cart" className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-transparent bg-white text-sm font-medium text-gray-900 shadow-sm transition hover:bg-gray-100 sm:h-11 sm:w-11">
                             <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.35 5.4a1 1 0 001 1.2h12.9a1 1 0 001-.78l1.3-5.8M16 21a1 1 0 100-2 1 1 0 000 2zm-8 0a1 1 0 100-2 1 1 0 000 2z" />
                             </svg>
@@ -55,16 +56,16 @@ const Navbar = () => {
                                         Admin
                                     </Link>
                                 )}
-                                <button onClick={handleLogout} className="rounded-full border border-transparent bg-rose-800 px-3 py-2 text-sm font-medium text-white transition hover:bg-rose-500">
+                                <button onClick={handleLogout} className="rounded-full border border-transparent bg-rose-700 px-3 py-2 text-sm font-medium text-white transition hover:bg-rose-600">
                                     Logout
                                 </button>
                             </>
                         ) : (
                             <>
-                                <Link to="/login" onClick={handleLogin}  className="rounded-full bg-green-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-green-700">
+                                <Link to="/login" onClick={handleLogin}  className="rounded-full bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 sm:px-4">
                                     Login
                                 </Link>
-                                <Link to="/register" className="rounded-full bg-rose-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-rose-500">
+                                <Link to="/register" className="rounded-full bg-rose-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-rose-700 sm:px-4">
                                     Register
                                 </Link>
                             </>

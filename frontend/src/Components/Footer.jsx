@@ -2,12 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 const Footer = () => {
   return (
-    <footer className="footer sticky bottom-0 bg-gray-900 py-4 text-center text-sm text-gray-300">
-      <div className="footer-content">
+    <footer className="footer bg-slate-950 px-4 py-6 text-center text-sm text-gray-300">
+      <div className="footer-content mx-auto max-w-6xl">
        <p className="mb-2">
           &copy; 2023 Scarlet Rose. All rights reserved.
         </p>
-        <ul className="flex justify-center space-x-4">
+        <ul className="flex flex-wrap justify-center gap-x-5 gap-y-2">
           <li>
             <Link to="/about" className="text-gray-300 hover:text-white">
               About

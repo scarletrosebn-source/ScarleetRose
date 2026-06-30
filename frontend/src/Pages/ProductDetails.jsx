@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../Redux/CartSlice";
 import Loader from "../Components/Loader";
+import { PLACEHOLDER_IMAGE } from "../config/assets";
 
 
 const getReviewRating = (review) => {
@@ -36,7 +37,7 @@ const ProductDetails = () => {
 
         const data = await resp.json();
         setProduct(data);
-        setActiveImage(data.images?.[0] || "/Design.png");
+        setActiveImage(data.images?.[0] || PLACEHOLDER_IMAGE);
       } catch (fetchError) {
         console.error("Error fetching product:", fetchError);
         setError("Unable to load this product right now.");
@@ -138,6 +139,9 @@ const ProductDetails = () => {
                 src={activeImage}
                 alt={product.name}
                 className="h-[420px] w-full object-cover sm:h-[560px]"
+                onError={(event) => {
+                  event.currentTarget.src = PLACEHOLDER_IMAGE;
+                }}
               />
             </div>
 
@@ -152,7 +156,14 @@ const ProductDetails = () => {
                       activeImage === image ? "ring-rose-500" : "ring-rose-100 hover:ring-rose-300"
                     }`}
                   >
-                    <img src={image} alt={product.name} className="h-full w-full object-cover" />
+                    <img
+                      src={image}
+                      alt={product.name}
+                      className="h-full w-full object-cover"
+                      onError={(event) => {
+                        event.currentTarget.src = PLACEHOLDER_IMAGE;
+                      }}
+                    />
                   </button>
                 ))}
               </div>

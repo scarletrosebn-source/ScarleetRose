@@ -1,16 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { PLACEHOLDER_IMAGE } from "../config/assets";
 
 const Card = ({ product }) => {
   const priceAfterDiscount = Math.round(product.price * (1 - (product.discount || 0) / 100));
 
   return (
-    <div className="max-w-sm overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-lg transition hover:-translate-y-1 hover:shadow-2xl">
-      <div className="relative h-72 overflow-hidden bg-gray-100">
+    <div className="w-full overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+      <div className="relative h-64 overflow-hidden bg-gray-100 sm:h-72">
         <img
-          src={product.images?.[0]}
+          src={product.images?.[0] || PLACEHOLDER_IMAGE}
           alt={product.name}
           className="h-full w-full object-cover transition duration-300 hover:scale-105"
+          onError={(event) => {
+            event.currentTarget.src = PLACEHOLDER_IMAGE;
+          }}
         />
         {product.discount > 0 && (
           <span className="absolute left-4 top-4 rounded-full bg-red-600 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white shadow-sm">
@@ -21,7 +25,7 @@ const Card = ({ product }) => {
 
       <div className="space-y-4 p-5">
         <div>
-          <h2 className="text-xl font-semibold text-gray-900">{product.name}</h2>
+          <h2 className="text-xl font-semibold leading-snug text-gray-900">{product.name}</h2>
           <p className="mt-2 text-sm text-gray-500 line-clamp-3">{product.description}</p>
         </div>
 
