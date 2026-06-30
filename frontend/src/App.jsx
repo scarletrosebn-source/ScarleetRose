@@ -15,6 +15,7 @@ import VerifyEmail from "./Pages/VerifyEmail";
 import ProductDetails from "./Pages/ProductDetails";
 import ForgotPassword from "./Pages/ForgotPassword";
 import ResetPassword from "./Pages/ResetPassword";
+import Cart from "./Pages/Cart";
 function App() {
     return (
         <Router>
@@ -33,6 +34,7 @@ function App() {
                 <Route path="/terms-conditions" element={<TermsConditions />} />
                 <Route path="/product/:id" element={<ProductDetails />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/cart" element={<Cart />} />
                 {/* <Route path="/contact" element={<div>Contact Page</div>} /> */}
             </Routes>
             <Footer />

@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../Redux/CartSlice";
 import Loader from "../Components/Loader";
 
+
 const getReviewRating = (review) => {
   const rating = Number(review.customer_rating ?? review.customerRating ?? review.rating);
   return Number.isFinite(rating) ? rating : 0;

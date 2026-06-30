@@ -1,11 +1,18 @@
 //Authentication State Management: Context
-import React, { createContext, useState } from "react";
+import React, { createContext, useState,useEffect } from "react";
 
 export const AuthContext = createContext();
 
+
 const AuthProvider = ({ children }) => {
-   // const [user, setUser] = useState(null);
+   
     const [user, setUser] = useState(null);
+    useEffect(() => {
+        const storedUser = localStorage.getItem("userdata") || sessionStorage.getItem("userdata");
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
     const login = (userData,rememberMe) => {
         console.log(userData);
         setUser(userData);
