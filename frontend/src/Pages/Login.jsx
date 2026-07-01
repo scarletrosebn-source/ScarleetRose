@@ -22,7 +22,7 @@ const Login = () => {
     if (state?.redirectUrl==="/cart") {
       alert("Please login to checkout! User not properly logged in.");
     }
-  }, []);
+  }, [state]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -114,7 +114,7 @@ const Login = () => {
                   className="mt-2 w-full rounded-2xl border border-rose-100 bg-white px-4 py-3 text-gray-900 shadow-sm outline-none transition placeholder:text-gray-400 focus:border-rose-400 focus:ring-4 focus:ring-rose-100"
                   onChange={handleChange}
                 />
-              </div>handleChange
+              </div>
 
               <div>
                 <label htmlFor="password" className="block text-sm font-semibold text-rose-950">

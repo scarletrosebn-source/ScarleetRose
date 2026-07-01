@@ -33,7 +33,9 @@ const Checkout = () => {
 
   const shipping = subtotal > 999 ? 0 : 40;
 
-  const gst = Number((subtotal * 0.18).toFixed(2));
+  // const gst = Number((subtotal * 0.18).toFixed(2));
+
+  const gst = 0;//small business so no gst
 
   const total = subtotal + shipping + gst;
 
